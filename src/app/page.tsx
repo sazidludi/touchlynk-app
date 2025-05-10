@@ -1,27 +1,27 @@
-// Landing page with the logins
+"use client";
 
-import Link from 'next/link';
-export default function Home() {
+import Link from "next/link"; // <-- Required to navigate between routes
+
+export default function HomePage() {
   return (
+    <div className="flex flex-col items-center justify-center min-h-screen p-4">
+      <h1 className="text-3xl font-bold mb-8">Welcome to TouchLynk</h1>
 
-    <main className="flex min-h-screen flex-col items-center justify-center p-4">
-      {/* min-h-screen is viewport height */}
-
-      {/* Page heading */}
-      <h1 className="text-3xl font-bold mb-6">Welcome to TouchLynk</h1>
-
-      {/* Player Dashboard Link */}
-      <Link href="/player-login">
-         className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded mb-4"
-          Player Dashboard
-        
+      {/* Player Dashboard Button */}
+      <Link
+        href="/player-login"
+        className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded mb-4"
+      >
+        Player Dashboard
       </Link>
 
-      {/* Team Dashboard Link */}
-      <Link href="/team-login">
-         className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded"
-          Team Dashboard
+      {/* Team Dashboard Button */}
+      <Link
+        href="/team-login"
+        className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded"
+      >
+        Team Dashboard
       </Link>
-    </main>
+    </div>
   );
 }
