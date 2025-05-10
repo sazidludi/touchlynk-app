@@ -24,4 +24,6 @@
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "scripts/convertExcelToJson.js"],
   "exclude": ["node_modules"]
+  
+
 }
