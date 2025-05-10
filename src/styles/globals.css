@@ -3,7 +3,8 @@
 
 /* Base theme colors applied using Tailwind variables */
 html, body {
-  @apply bg-background text-foreground;
+  background-color: var(--color-background);
+  color: var(--color-foreground);
 }
 
 /* Custom CSS variables (light mode) */

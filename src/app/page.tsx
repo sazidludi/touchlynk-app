@@ -12,16 +12,15 @@ export default function Home() {
 
       {/* Player Dashboard Link */}
       <Link href="/player-login">
-        <a className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded mb-4">
+         className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded mb-4"
           Player Dashboard
-        </a>
+        
       </Link>
 
       {/* Team Dashboard Link */}
       <Link href="/team-login">
-        <a className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded">
+         className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded"
           Team Dashboard
-        </a>
       </Link>
     </main>
   );
