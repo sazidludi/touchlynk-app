@@ -1,0 +1,303 @@
+[
+  {
+    "Field ": "Id",
+    "Description": "Record ID"
+  },
+  {
+    "Field ": "Type",
+    "Description": "record type",
+    "Values": "1- Goal Event\r\n2 - Team Event\r\n3 - Official Event"
+  },
+  {
+    "Field ": "ScheduleId",
+    "Description": "Foreign key to schedule table"
+  },
+  {
+    "Field ": "TeamId",
+    "Description": "Capture of the team that performed the event.  Foreign key to team table "
+  },
+  {
+    "Field ": "PlayerId",
+    "Description": "ID of player that performed the event.  Foreign key to Tl_users table.  This is the old id for a user assigned to an event.  This will be blank for the opponent team"
+  },
+  {
+    "Field ": "Minutes",
+    "Description": "Video time stamp"
+  },
+  {
+    "Field ": "Seconds",
+    "Description": "Video time stamp"
+  },
+  {
+    "Field ": "ShotFromId",
+    "Description": "identifies where  a shot orginated.  Will only be poopulated for Record type 1",
+    "Values": "Id\tName\r\n1\tInside The Six\r\n2\tInside The Box\r\n3\tOutside The Box\r\n4\tNo Shot"
+  },
+  {
+    "Field ": "ShotToId",
+    "Description": "identifies where the shot ended up in relation to the goal",
+    "Values": "Id\tName\r\n1\tTop Middle\r\n2\tLeft Bottom Corner\r\n3\tLeft Side\r\n4\tLeft Top Corner\r\n5\tCenter Middle\r\n6\tRight Bottom Corner\r\n7\tRight Side\r\n8\tRight Top Corner\r\n9\tNo Shot\r\n10\tLower Middle"
+  },
+  {
+    "Field ": "AssitPlayerId",
+    "Description": "If the result was a goal, the id of the person that assisted on the goal"
+  },
+  {
+    "Field ": "AssitFromId",
+    "Description": "Description of what the goal event originated from",
+    "Values": "Id\tName\r\n1\tBuild Up Play Through Middle\r\n2\tCross From Left\r\n3\tCross From Right\r\n4\tCorners\r\n5\tFree Kick\r\n6\tPenalty Kick\r\n7\tOwn Goal\r\n8\tTurnover\r\n9\tLeft Channel\r\n10\tRight Channel\r\n11\tPenetrating Pass"
+  },
+  {
+    "Field ": "ResultId",
+    "Description": "Result of the goal event",
+    "Values": "Id\tName\r\n1\tGoal\r\n2\tMiss - no longer used\r\n3\tNo Shot\r\n4\tSave\r\n5\tShot off Target\r\n6\tBlocked Shot"
+  },
+  {
+    "Field ": "Url",
+    "Description": "URL link to the video clip for the event"
+  },
+  {
+    "Field ": "IsVideoSplit",
+    "Description": "Indicator if a clip has been reqested/created"
+  },
+  {
+    "Field ": "CreatedDate",
+    "Description": "When record created"
+  },
+  {
+    "Field ": "CreatedBy",
+    "Description": "User ID that created"
+  },
+  {
+    "Field ": "UpdatedDate",
+    "Description": "last udate"
+  },
+  {
+    "Field ": "UpdatedBy",
+    "Description": "update ID"
+  },
+  {
+    "Field ": "DeletedDate",
+    "Description": "delete date"
+  },
+  {
+    "Field ": "DeletedBy",
+    "Description": "deleted by"
+  },
+  {
+    "Field ": "ShotToXaxis",
+    "Description": "Plot of goal event result location - not accurate, not currently used"
+  },
+  {
+    "Field ": "ShotToYaxis",
+    "Description": "Plot of goal event result location - not accurate, not currently used"
+  },
+  {
+    "Field ": "ShotFromXaxis",
+    "Description": "Plot of goal event origin location - not accurate, not currently used"
+  },
+  {
+    "Field ": "ShotFromYaxis",
+    "Description": "Plot of goal event origin location - not accurate, not currently used"
+  },
+  {
+    "Field ": "CatergoryId",
+    "Description": "Specifies the team being analyzed and the opponent",
+    "Values": "Id\tName\r\n1\tUs\r\n2\tOpponent"
+  },
+  {
+    "Field ": "FieldPositionId",
+    "Description": "Capture field position of the event.  Only used for Team stats and only use first 3 values currently, Defesive, Middle and Offensive Third.  The field position for all events is from the perspective of the team being analyzed.  ",
+    "Values": "Id\tName\r\n1\tDefensive Third\r\n2\tMiddle Third\r\n3\tOffensive Third\r\n4\tInside Penalty Box\r\n5\tOutside Penalty Box\r\n6\tOffensive Half\r\n7\tDefensive Half\r\n8\tDefensive third Left\r\n9\tDefensive third Center\r\n10\tDefensive third Right\r\n11\tMiddle Third Left\r\n12\tMiddle Third Center\r\n13\tMiddle Third Right\r\n14\tOffensive Third Left\r\n15\tOffensive Third Center\r\n16\tOffensive Third Right"
+  },
+  {
+    "Field ": "Count",
+    "Description": "Not used?  Every recod value = 1"
+  },
+  {
+    "Field ": "IsSuccessful",
+    "Description": "Indicates if the team event was successful, meaning was there a successful event.  This is a calculated field based on the next event.  If the next event is performed by the same team, then the pass is successful"
+  },
+  {
+    "Field ": "NoOfPasses",
+    "Description": "Count of the number of successful passes in a row."
+  },
+  {
+    "Field ": "StringOfPasses",
+    "Description": "The final number of successful passes in a pass string, calculated based on IsSuccessful and NoOfPasses"
+  },
+  {
+    "Field ": "StringPassMax"
+  },
+  {
+    "Field ": "QtrId"
+  },
+  {
+    "Field ": "TeamBreakThird",
+    "Description": "Not used?"
+  },
+  {
+    "Field ": "WhichThird",
+    "Description": "Not used?"
+  },
+  {
+    "Field ": "ReviewerNote"
+  },
+  {
+    "Field ": "MasterDefensiveEventId",
+    "Description": "Defensive action taken during offensive event",
+    "Values": "Id\tEventName\r\n1\tDefensive Pressure\r\n2\tTackle\r\n3\tBlocked Shot\r\n4\tClearance\r\n5\tArial Duel\r\n6\tNo Defense Stat"
+  },
+  {
+    "Field ": "NewURL",
+    "Description": "Don't know what ths is for.  Why is this different than the URL field"
+  },
+  {
+    "Field ": "NewVideoSplit",
+    "Description": "Don't know what ths is for.  Why is this different than the Video Split  field"
+  },
+  {
+    "Field ": "RequestedEmail"
+  },
+  {
+    "Field ": "RequestedUserId"
+  },
+  {
+    "Field ": "EmailSend"
+  },
+  {
+    "Field ": "NextScheduleId",
+    "Description": "Don't know what this is"
+  },
+  {
+    "Field ": "NextCategoryId"
+  },
+  {
+    "Field ": "NextFieldPositionId"
+  },
+  {
+    "Field ": "ScheduleMatch",
+    "Description": "Don't know what this is"
+  },
+  {
+    "Field ": "CategoryMatch",
+    "Description": "Don't know what this is"
+  },
+  {
+    "Field ": "CategoryUsMatch",
+    "Description": "Don't know what this is"
+  },
+  {
+    "Field ": "KeepingPosition",
+    "Description": "Don't know what this is"
+  },
+  {
+    "Field ": "NextSuccesfulPassId"
+  },
+  {
+    "Field ": "SuccessMatchPass"
+  },
+  {
+    "Field ": "SuccessPass"
+  },
+  {
+    "Field ": "SuccessPassString"
+  },
+  {
+    "Field ": "DtoM",
+    "Description": "Indicates if a pass broke the defensive to middle third"
+  },
+  {
+    "Field ": "DtoO",
+    "Description": "indictaes if a pass roke the defensive to offensive third"
+  },
+  {
+    "Field ": "MtoO",
+    "Description": "indicates if a pass broke the middle to offensive third"
+  },
+  {
+    "Field ": "ShortGameDate"
+  },
+  {
+    "Field ": "MasterOffensiveEventId",
+    "Description": "Indicates a further dilineation of the type of offensive team event.   Not currently used.  ",
+    "Values": "Id\tEventName\r\n1\tPass\r\n2\tTackle\r\n3\tClearance\r\n4\tDeflection\r\n5\tBlocked Shot\r\n6\tBad Trap\r\n7\tHeader\r\n8\tCross"
+  },
+  {
+    "Field ": "StoppageEventId",
+    "Description": "Indicates the type of official stoppage.",
+    "Values": "Id\tName\r\n1\tOut of bounds sideline\r\n2\tOut of bounds endline\r\n3\tOffsides Home Team\r\n4\tOffsides Opponent Team\r\n5\tFoul Home Team\r\n6\tFoul Opponent Team\r\n7\tCard Issued Home Team\r\n8\tCard Issued Opponent Team\r\n9\tOther Stoppage\r\n10\tEnd Of Half Stoppage"
+  },
+  {
+    "Field ": "LocationEventId"
+  },
+  {
+    "Field ": "LocationAnalystEventId"
+  },
+  {
+    "Field ": "PenaltyboxId"
+  },
+  {
+    "Field ": "MidfieldId"
+  },
+  {
+    "Field ": "IsVideoCheck"
+  },
+  {
+    "Field ": "IsAssistNotRequired"
+  },
+  {
+    "Field ": "GoalScoringChances"
+  },
+  {
+    "Field ": "GameMinutes",
+    "Description": "calculation of the gametime of an event, from 0 minutes up to the end of the half and the end of the game.  If a game is 45 miute halves, the second half will start at 45:00"
+  },
+  {
+    "Field ": "GameSeconds",
+    "Description": "calculation of the gametime of an event, from 0 minutes up to the end of the half and the end of the game"
+  },
+  {
+    "Field ": "Half",
+    "Description": "Indication of which half the event took place in."
+  },
+  {
+    "Field ": "IsVideoQualityIssue",
+    "Description": "Not used"
+  },
+  {
+    "Field ": "GameTimeUpdatedDate"
+  },
+  {
+    "Field ": "NewPlayerId",
+    "Description": "The id of the player that performed the event"
+  },
+  {
+    "Field ": "NewAssistPlayerId",
+    "Description": "The id of the player that assisted on a goal event that resulted in a score"
+  },
+  {
+    "Field ": "PossessionStartMinute",
+    "Description": "Calculated beginning of an individual possession.  Use to calculate how long an individual possessed the ball each time they receve it"
+  },
+  {
+    "Field ": "PossessionStartSeconds",
+    "Description": "Calculated beginning of an individual possession.  Use to calculate how long an individual possessed the ball each time they receve it"
+  },
+  {
+    "Field ": "DefensivePlayerID",
+    "Description": "The id of the player that perfomed a defensive action"
+  },
+  {
+    "Field ": "IsVideoGallery",
+    "Description": "?"
+  },
+  {
+    "Field ": "PasstargetID",
+    "Description": "calculated field of the player that receives the pass"
+  },
+  {
+    "Field ": "GoaliePlayerId",
+    "Description": "Player ID of the goalie that was in goal for the opponent's shot"
+  }
+]

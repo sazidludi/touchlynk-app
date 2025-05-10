@@ -1,0 +1,30 @@
+[
+  {
+    "Schedule Analysis Fields ": "Player Actions",
+    "Definition of the fields in the schedule analysis table": "Definition of how to calculate player actions"
+  },
+  {
+    "Schedule Analysis Fields ": "TeamvsUser",
+    "Definition of the fields in the schedule analysis table": "Player records"
+  },
+  {
+    "Schedule Analysis Fields ": "Schedule  ",
+    "Definition of the fields in the schedule analysis table": "Game metadata"
+  },
+  {
+    "Schedule Analysis Fields ": "ScheduleAnalysis",
+    "Definition of the fields in the schedule analysis table": "Event records for each game"
+  },
+  {
+    "Schedule Analysis Fields ": "Defensive Stats",
+    "Definition of the fields in the schedule analysis table": "Aggregated stats for each player for each game"
+  },
+  {
+    "Schedule Analysis Fields ": "CapturedGoalies",
+    "Definition of the fields in the schedule analysis table": "Defines which player(s) was in goal during each game"
+  },
+  {
+    "Schedule Analysis Fields ": "GameSummaryData",
+    "Definition of the fields in the schedule analysis table": "Aggregated Stats for each game"
+  }
+]

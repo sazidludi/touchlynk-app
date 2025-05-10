@@ -1,0 +1,151 @@
+[
+  {
+    "Event": "Pass",
+    "CatergoryID": 1,
+    "Type": 2,
+    "MasterOffensiveEventID": "1 or NULL",
+    "IsSuccessful": "Y",
+    "Player": "NewPlayerID"
+  },
+  {
+    "Event": "Throw In",
+    "CatergoryID": 1,
+    "Type": 2,
+    "MasterOffensiveEventID": 10,
+    "Player": "NewPlayerID"
+  },
+  {
+    "Event": "Turnover",
+    "CatergoryID": 1,
+    "Type": 2,
+    "MasterOffensiveEventID": "2,4,6, or NULL",
+    "IsSuccessful": "N",
+    "Player": "NewPlayerID"
+  },
+  {
+    "Event": "Unsuccessful Pass",
+    "CatergoryID": 1,
+    "Type": 2,
+    "MasterOffensiveEventID": 1,
+    "IsSuccessful": "N",
+    "Player": "NewPlayerID"
+  },
+  {
+    "Event": "Cross",
+    "CatergoryID": 1,
+    "Type": 2,
+    "MasterOffensiveEventID": 8,
+    "Player": "NewPlayerID"
+  },
+  {
+    "Event": "Header",
+    "CatergoryID": 1,
+    "Type": 2,
+    "MasterOffensiveEventID": 7,
+    "Player": "NewPlayerID"
+  },
+  {
+    "Event": "Shot",
+    "CatergoryID": 1,
+    "Type": 1,
+    "ResultID": "2,3,4,5,6",
+    "AssistFromID": "1,2,3,8,9,10,11",
+    "Player": "NewPlayerID"
+  },
+  {
+    "Event": "Goal",
+    "CatergoryID": 1,
+    "Type": 1,
+    "ResultID": 1,
+    "Player": "NewPlayerID"
+  },
+  {
+    "Event": "Free Kick",
+    "CatergoryID": 1,
+    "Type": 1,
+    "ResultID": "2,3,4,5,6",
+    "AssistFromID": 5,
+    "Player": "NewPlayerID"
+  },
+  {
+    "Event": "Corner",
+    "CatergoryID": 1,
+    "Type": 1,
+    "ResultID": "2,3,4,5,6",
+    "AssistFromID": 4,
+    "Player": "NewPlayerID"
+  },
+  {
+    "Event": "Tackle Attempt",
+    "CatergoryID": 2,
+    "Type": 2,
+    "IsSuccessful": "Y",
+    "MasterDefensiveEventID": 2,
+    "Player": "DefensivePlayerID"
+  },
+  {
+    "Event": "Successful Tackle",
+    "CatergoryID": 2,
+    "Type": 2,
+    "IsSuccessful": "N",
+    "MasterDefensiveEventID": 2,
+    "Player": "DefensivePlayerID"
+  },
+  {
+    "Event": "Blocked Shot",
+    "CatergoryID": 2,
+    "Type": 2,
+    "MasterDefensiveEventID": 3,
+    "Player": "DefensivePlayerID"
+  },
+  {
+    "Event": "Clearance",
+    "CatergoryID": 1,
+    "Type": 2,
+    "MasterOffensiveEventID": 3,
+    "Player": "NewPlayerID"
+  },
+  {
+    "Event": "Aerial Duel ",
+    "CatergoryID": 2,
+    "Type": 2,
+    "MasterDefensiveEventID": 5,
+    "Player": "DefensivePlayerID"
+  },
+  {
+    "Event": "Save",
+    "CatergoryID": 2,
+    "Type": 1,
+    "ResultID": 4,
+    "Player": "GoaliePlayerID"
+  },
+  {
+    "Event": "Punt",
+    "CatergoryID": 1,
+    "Type": 2,
+    "MasterOffensiveEventID": 11,
+    "Player": "NewPlayerID"
+  },
+  {
+    "Event": "Hand Pass",
+    "CatergoryID": 1,
+    "Type": 2,
+    "MasterOffensiveEventID": 12,
+    "Player": "NewPlayerID"
+  },
+  {
+    "Event": "Goal Kick",
+    "CatergoryID": 1,
+    "Type": 2,
+    "MasterOffensiveEventID": 13,
+    "Player": "NewPlayerID"
+  },
+  {
+    "CatergoryID": "Id\tName\r\n1\tUs\r\n2\tOpponent",
+    "Type": "1- Goal Event\r\n2 - Team Event\r\n3 - Official Event",
+    "MasterOffensiveEventID": "Id\tEventName\r\n1\tPass\r\n2\tTackle\r\n3\tClearance\r\n4\tDeflection\r\n5\tBlocked Shot\r\n6\tBad Trap\r\n7\tHeader\r\n8\tCross\r\n9\tGoal Stat\r\n10\tThrow In\r\n11\tPunt\r\n12\tHand Pass\r\n13\tGoal Kick\r\n14\tDelete",
+    "ResultID": "Id\tName\r\n1\tGoal\r\n2\tMiss - no longer used\r\n3\tNo Shot\r\n4\tSave\r\n5\tShot off Target\r\n6\tBlocked Shot",
+    "AssistFromID": "Id\tName\r\n1\tBuild Up Play Through Middle\r\n2\tCross From Left\r\n3\tCross From Right\r\n4\tCorners\r\n5\tFree Kick\r\n6\tPenalty Kick\r\n7\tOwn Goal\r\n8\tTurnover\r\n9\tLeft Channel\r\n10\tRight Channel\r\n11\tPenetrating Pass",
+    "MasterDefensiveEventID": "Id\tEventName\r\n1\tDefensive Pressure\r\n2\tTackle\r\n3\tBlocked Shot\r\n4\tClearance\r\n5\tArial Duel\r\n6\tNo Defense Stat"
+  }
+]
