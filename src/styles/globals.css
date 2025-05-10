@@ -1,18 +1,24 @@
-@import "tailwindcss/preflight";
-@tailwind utilities;
+/* Import all of Tailwind's styles */
+@import "tailwindcss";
 
+/* Base theme colors applied using Tailwind variables */
+html, body {
+  @apply bg-background text-foreground;
+}
+
+/* Custom CSS variables (light mode) */
 :root {
   --background: #ffffff;
   --foreground: #171717;
-}
 
-:root {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
+/* Override for dark mode */
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
@@ -20,6 +26,7 @@
   }
 }
 
+/* Fallback for legacy */
 body {
   background: var(--background);
   color: var(--foreground);
