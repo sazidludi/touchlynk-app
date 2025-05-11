@@ -26,7 +26,7 @@ export default function PlayerDashboard({ playerId }: Props) {
     setPlayer(playerRecord);
 
     const def = defensiveStats.filter((entry: any) => entry.PlayerId === id);
-    const saves = scheduleAnalysis.filter((entry: any) => entry.GoaliePlayerId === id).length;
+    const saves = (scheduleAnalysis as any[]).filter((entry) => entry.GoaliePlayerId === id).length;
 
     const tackles = def.reduce((sum: number, d: any) => sum + d.TacklesCount, 0);
     const pressures = def.reduce((sum: number, d: any) => sum + d.DefensivePressures, 0);
