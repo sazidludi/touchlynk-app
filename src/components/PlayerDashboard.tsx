@@ -1,6 +1,6 @@
-'use client';
+// 'use client';
 
-import { useEffect, useState } from 'react';
+/* import { useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ShieldCheck, Activity, Move, Target } from 'lucide-react';
 import teamvsUser from '../../data/TeamvsUser.json';
@@ -113,4 +113,117 @@ export default function PlayerDashboard({ playerId }: Props) {
       </Card>
     </div>
   );
+} */
+
+'use client'
+
+import { useEffect, useState } from 'react'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { ShieldCheck, Activity, Move, Target } from 'lucide-react'
+import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
+import { generatePlayerDashboardData } from "@/services/player-data";
+import { ModeToggle } from '@/components/mode-toggle'
+
+type Props = {
+  playerId: string
 }
+
+export default function PlayerDashboard({ playerId }: Props) {
+  const [loading, setLoading] = useState(true)
+  const [playerData, setPlayerData] = useState<any>(null)
+
+  useEffect(() => {
+    const id = parseInt(playerId)
+    const data = getFullPlayerData(id)
+    if (data) {
+      setPlayerData(data)
+    }
+    setLoading(false)
+  }, [playerId])
+
+  if (loading) return <div className="text-white text-center">Loading...</div>
+  if (!playerData) return <div className="text-red-500 text-center">Player not found.</div>
+
+  const { info, stats, games } = playerData
+
+  return (
+    <div className="container mx-auto py-8 text-white">
+      <div className="flex justify-between items-center mb-6">
+        <Card className="bg-[#1a1b1f] w-full mr-4">
+          <CardHeader>
+            <CardTitle className="text-3xl font-bold">
+              #{info.jerseyNumber} {info.name}
+            </CardTitle>
+            <p className="text-sm text-gray-400">Position: {info.position}</p>
+          </CardHeader>
+        </Card>
+        <ModeToggle />
+      </div>
+
+      <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+        <StatCard title="Tackles" value={stats.tackles} Icon={ShieldCheck} />
+        <StatCard title="Pressures" value={stats.pressures} Icon={Activity} />
+        <StatCard title="Recoveries" value={stats.recoveries} Icon={Move} />
+        <StatCard title="Saves" value={stats.saves} Icon={Target} />
+      </section>
+
+      <Card className="mt-6 bg-[#1a1b1f]">
+        <CardHeader>
+          <CardTitle>Games Appeared In</CardTitle>
+        </CardHeader>
+        <CardContent>
+          {games.length > 0 ? (
+            <ul className="list-disc pl-6 space-y-1 text-sm text-gray-300">
+              {games.map((g: any) => (
+                <li key={g.scheduleId}>
+                  Game ID: {g.scheduleId}, Opponent ID: {g.opponentId}, Match Date: {g.matchDate}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-sm text-gray-400">No games recorded as goalie.</p>
+          )}
+        </CardContent>
+      </Card>
+
+      <Card className="mt-6 bg-[#1a1b1f]">
+        <CardHeader>
+          <CardTitle>Defensive Metrics Chart</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <ResponsiveContainer width="100%" height={250}>
+            <LineChart data={games.map((g: { scheduleId: number; opponentId: number; matchDate: string }, i: number) => ({
+              game: `G${i + 1}`,
+              tackles: stats.tackles / games.length,
+              pressures: stats.pressures / games.length,
+              recoveries: stats.recoveries / games.length,
+            }))}>
+              <XAxis dataKey="game" stroke="#ccc" />
+              <YAxis stroke="#ccc" />
+              <Tooltip />
+              <Line type="monotone" dataKey="tackles" stroke="#10b981" />
+              <Line type="monotone" dataKey="pressures" stroke="#f59e0b" />
+              <Line type="monotone" dataKey="recoveries" stroke="#3b82f6" />
+            </LineChart>
+          </ResponsiveContainer>
+        </CardContent>
+      </Card>
+    </div>
+  )
+}
+
+function StatCard({ title, value, Icon }: { title: string, value: number, Icon: any }) {
+  return (
+    <Card className="bg-[#1f2128] text-white">
+      <CardHeader className="flex flex-row items-center justify-between">
+        <CardTitle className="text-sm">{title}</CardTitle>
+        <Icon className="h-5 w-5 text-primary" />
+      </CardHeader>
+      <CardContent>
+        <p className="text-2xl font-semibold">{value}</p>
+      </CardContent>
+    </Card>
+  )
+}
+
+
