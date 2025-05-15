@@ -1,4 +1,4 @@
-import scheduleAnalysis from '/data/Scheduleanalysis.json';
+import scheduleAnalysis from '@data/Scheduleanalysis.json';
 import { PlayerGameStats } from '@/types/player';
 
 // Estimate xG from ShotFromId if ResultId is a goal

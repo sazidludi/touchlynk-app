@@ -1,229 +1,95 @@
-// 'use client';
+'use client';
 
-/* import { useEffect, useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ShieldCheck, Activity, Move, Target } from 'lucide-react';
-import teamvsUser from '../../data/TeamvsUser.json';
-import defensiveStats from '../../data/DefensiveStats.json';
-import scheduleAnalysis from '../../data/Scheduleanalysis.json';
-import capturedGoalies from '../../data/CapturedGoalies.json';
+import React from 'react';
+import { PlayerDashboardData } from '@/types/player';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { generatePlayerDashboardData } from '@/services/player-data';
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  ResponsiveContainer,
+  Tooltip,
+  CartesianGrid,
+} from 'recharts';
 
 type Props = {
   playerId: string;
 };
 
-export default function PlayerDashboard({ playerId }: Props) {
-  const [player, setPlayer] = useState<any>(null);
-  const [stats, setStats] = useState({ tackles: 0, pressures: 0, recoveries: 0, saves: 0 });
-  const [games, setGames] = useState<number[]>([]);
+const PlayerDashboard: React.FC<Props> = ({ playerId }) => {
+  const data = generatePlayerDashboardData();
+  const player = data.find(p => p.player.id.toString() === playerId);
 
-  useEffect(() => {
-    const id = parseInt(playerId);
+  if (!player) return <p className="text-white">Player not found.</p>;
 
-    const playerRecord = teamvsUser.find((p: any) => p.UserId === id);
-    if (!playerRecord) return;
-
-    setPlayer(playerRecord);
-
-    const def = defensiveStats.filter((entry: any) => entry.PlayerId === id);
-    const saves = (scheduleAnalysis as any[]).filter((entry) => entry.GoaliePlayerId === id).length;
-
-    const tackles = def.reduce((sum: number, d: any) => sum + d.TacklesCount, 0);
-    const pressures = def.reduce((sum: number, d: any) => sum + d.DefensivePressures, 0);
-    const recoveries = def.reduce((sum: number, d: any) => sum + d.IndividualRecovery, 0);
-
-    setStats({ tackles, pressures, recoveries, saves });
-
-    const goalieGames = capturedGoalies.filter((g: any) => g.UserId === id).map((g: any) => g.ScheduleId);
-    setGames(goalieGames);
-  }, [playerId]);
-
-  if (!player) {
-    return <div className="text-red-600">Player not found.</div>;
-  }
+  const { player: info, stats, aggregated } = player;
 
   return (
-    <div className="container mx-auto py-8">
-      <Card className="mb-6 bg-[#1a1b1f] text-white">
+    <div className="space-y-6 text-white">
+      {/* Player Header */}
+      <Card>
         <CardHeader>
-          <CardTitle className="text-3xl font-bold">
-            #{player.JerseyNo} {player.FirstName} {player.LastName}
+          <CardTitle className="text-2xl font-bold">
+            #{info.jerseyNumber} {info.firstName} {info.lastName}
           </CardTitle>
-          <p className="text-sm text-gray-400">Position Code: {player.Position}</p>
+          <p className="text-sm text-muted-foreground">
+            Position: {info.positionCode}
+          </p>
         </CardHeader>
       </Card>
 
-      <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-        <Card className="bg-[#1f2128] text-white">
-          <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle className="text-sm">Tackles</CardTitle>
-            <ShieldCheck className="h-5 w-5 text-primary" />
-          </CardHeader>
-          <CardContent>
-            <p className="text-2xl font-semibold">{stats.tackles}</p>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-[#1f2128] text-white">
-          <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle className="text-sm">Pressures</CardTitle>
-            <Activity className="h-5 w-5 text-primary" />
-          </CardHeader>
-          <CardContent>
-            <p className="text-2xl font-semibold">{stats.pressures}</p>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-[#1f2128] text-white">
-          <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle className="text-sm">Recoveries</CardTitle>
-            <Move className="h-5 w-5 text-primary" />
-          </CardHeader>
-          <CardContent>
-            <p className="text-2xl font-semibold">{stats.recoveries}</p>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-[#1f2128] text-white">
-          <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle className="text-sm">Saves</CardTitle>
-            <Target className="h-5 w-5 text-primary" />
-          </CardHeader>
-          <CardContent>
-            <p className="text-2xl font-semibold">{stats.saves}</p>
-          </CardContent>
-        </Card>
-      </section>
-
-      <Card className="mt-6 bg-[#1a1b1f] text-white">
-        <CardHeader>
-          <CardTitle>Games Appeared In</CardTitle>
-        </CardHeader>
-        <CardContent>
-          {games.length > 0 ? (
-            <ul className="list-disc pl-6 space-y-1 text-sm text-gray-300">
-              {games.map((g) => (
-                <li key={g}>Game ID: {g}</li>
-              ))}
-            </ul>
-          ) : (
-            <p className="text-sm text-gray-400">No games recorded as goalie.</p>
-          )}
-        </CardContent>
-      </Card>
-    </div>
-  );
-} */
-
-'use client'
-
-import { useEffect, useState } from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { ShieldCheck, Activity, Move, Target } from 'lucide-react'
-import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
-import { generatePlayerDashboardData } from "@/services/player-data";
-import { ModeToggle } from '@/components/mode-toggle'
-
-type Props = {
-  playerId: string
-}
-
-export default function PlayerDashboard({ playerId }: Props) {
-  const [loading, setLoading] = useState(true)
-  const [playerData, setPlayerData] = useState<any>(null)
-
-  useEffect(() => {
-    const id = parseInt(playerId)
-    const data = getFullPlayerData(id)
-    if (data) {
-      setPlayerData(data)
-    }
-    setLoading(false)
-  }, [playerId])
-
-  if (loading) return <div className="text-white text-center">Loading...</div>
-  if (!playerData) return <div className="text-red-500 text-center">Player not found.</div>
-
-  const { info, stats, games } = playerData
-
-  return (
-    <div className="container mx-auto py-8 text-white">
-      <div className="flex justify-between items-center mb-6">
-        <Card className="bg-[#1a1b1f] w-full mr-4">
-          <CardHeader>
-            <CardTitle className="text-3xl font-bold">
-              #{info.jerseyNumber} {info.name}
-            </CardTitle>
-            <p className="text-sm text-gray-400">Position: {info.position}</p>
-          </CardHeader>
-        </Card>
-        <ModeToggle />
+      {/* Aggregated Stats */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        {[
+          ['Tackles', aggregated.totalTackles],
+          ['Pressures', aggregated.totalPressures],
+          ['Recoveries', aggregated.totalRecoveries],
+          ['Saves', aggregated.totalSaves],
+          ['Goals', aggregated.totalGoals],
+          ['Shots', aggregated.totalShots],
+          ['Shots On Target', aggregated.totalShotsOnTarget],
+          ['Assists', aggregated.totalAssists],
+          ['xG', aggregated.totalXG.toFixed(2)],
+        ].map(([label, value]) => (
+          <Card key={label}>
+            <CardHeader>
+              <CardTitle className="text-base">{label}</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-xl font-bold">{value}</p>
+            </CardContent>
+          </Card>
+        ))}
       </div>
 
-      <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-        <StatCard title="Tackles" value={stats.tackles} Icon={ShieldCheck} />
-        <StatCard title="Pressures" value={stats.pressures} Icon={Activity} />
-        <StatCard title="Recoveries" value={stats.recoveries} Icon={Move} />
-        <StatCard title="Saves" value={stats.saves} Icon={Target} />
-      </section>
-
-      <Card className="mt-6 bg-[#1a1b1f]">
+      {/* Game-by-Game Chart */}
+      <Card>
         <CardHeader>
-          <CardTitle>Games Appeared In</CardTitle>
+          <CardTitle>Game Stats Overview</CardTitle>
         </CardHeader>
         <CardContent>
-          {games.length > 0 ? (
-            <ul className="list-disc pl-6 space-y-1 text-sm text-gray-300">
-              {games.map((g: any) => (
-                <li key={g.scheduleId}>
-                  Game ID: {g.scheduleId}, Opponent ID: {g.opponentId}, Match Date: {g.matchDate}
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p className="text-sm text-gray-400">No games recorded as goalie.</p>
-          )}
-        </CardContent>
-      </Card>
-
-      <Card className="mt-6 bg-[#1a1b1f]">
-        <CardHeader>
-          <CardTitle>Defensive Metrics Chart</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <ResponsiveContainer width="100%" height={250}>
-            <LineChart data={games.map((g: { scheduleId: number; opponentId: number; matchDate: string }, i: number) => ({
-              game: `G${i + 1}`,
-              tackles: stats.tackles / games.length,
-              pressures: stats.pressures / games.length,
-              recoveries: stats.recoveries / games.length,
-            }))}>
-              <XAxis dataKey="game" stroke="#ccc" />
-              <YAxis stroke="#ccc" />
+          <ResponsiveContainer width="100%" height={300}>
+            <BarChart data={stats}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="scheduleId" />
+              <YAxis />
               <Tooltip />
-              <Line type="monotone" dataKey="tackles" stroke="#10b981" />
-              <Line type="monotone" dataKey="pressures" stroke="#f59e0b" />
-              <Line type="monotone" dataKey="recoveries" stroke="#3b82f6" />
-            </LineChart>
+              <Bar dataKey="goals" fill="#8884d8" name="Goals" />
+              <Bar dataKey="assists" fill="#82ca9d" name="Assists" />
+              <Bar dataKey="xGoalsEstimate" fill="#ffc658" name="xG" />
+            </BarChart>
           </ResponsiveContainer>
         </CardContent>
       </Card>
     </div>
-  )
-}
+  );
+};
 
-function StatCard({ title, value, Icon }: { title: string, value: number, Icon: any }) {
-  return (
-    <Card className="bg-[#1f2128] text-white">
-      <CardHeader className="flex flex-row items-center justify-between">
-        <CardTitle className="text-sm">{title}</CardTitle>
-        <Icon className="h-5 w-5 text-primary" />
-      </CardHeader>
-      <CardContent>
-        <p className="text-2xl font-semibold">{value}</p>
-      </CardContent>
-    </Card>
-  )
-}
-
-
+export default PlayerDashboard;

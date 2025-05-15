@@ -1,7 +1,6 @@
-// for a fully scalable and maintainable codebase, we should use a more modular approach
 
 import { PlayerGameStats } from "@/types/player";
-import defensiveStats from "@/data/DefensiveStats.json";
+import defensiveStats from "@data/DefensiveStats.json";
 
 
  // Maps playerId → list of game-by-game defensive stats

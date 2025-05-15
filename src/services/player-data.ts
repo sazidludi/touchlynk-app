@@ -1,11 +1,14 @@
 import { PlayerDashboardData, PlayerInfo, PlayerGameStats } from '@/types/player';
 
 // Raw data imports
-import teamvsUser from '@/data/TeamvsUser.json';
-import defensiveStats from '@/data/DefensiveStats.json';
-import scheduleAnalysis from '@/data/Scheduleanalysis.json';
-import capturedGoalies from '@/data/CapturedGoalies.json';
-import schedule from '@/data/Schedule.json';
+import teamvsUser from '@data/TeamvsUser.json';
+import defensiveStats from '@data/DefensiveStats.json';
+import scheduleAnalysis from '@data/Scheduleanalysis.json';
+
+// Ensure scheduleAnalysis is typed as an array
+const scheduleAnalysisArray: any[] = Array.isArray(scheduleAnalysis) ? scheduleAnalysis : [];
+import capturedGoalies from '@data/CapturedGoalies.json';
+import schedule from '@data/Schedule.json';
 
 // Modular stat processors
 import { processDefensiveStats } from './processors/defensiveStatsProcessors';
@@ -25,16 +28,17 @@ export function generatePlayerDashboardData(): PlayerDashboardData[] {
   goalieStats.forEach((stats, playerId) => {
     const existing = statsMap.get(playerId) || [];
     statsMap.set(playerId, [...existing, ...stats]);
+    processScheduleAnalysisStats(scheduleAnalysisArray, statsMap);
   });
 
   // Match events → goals, assists, shots, xG, etc.
-  processScheduleAnalysisStats(scheduleAnalysis, statsMap);
+  processScheduleAnalysisStats(scheduleAnalysisArray, statsMap);
 
   // Build complete dashboard data
   const result: PlayerDashboardData[] = [];
 
   for (const [playerId, stats] of statsMap.entries()) {
-    const player = teamvsUser.find((p: { UserId: string; FirstName: string; LastName: string; JerseyNo: number; Position: string; SecondPosition: string }) => p.UserId === playerId.toString());
+const player = teamvsUser.find(p => p.UserId === playerId);
     if (!player) continue;
 
     const playerInfo: PlayerInfo = {
@@ -54,6 +58,7 @@ export function generatePlayerDashboardData(): PlayerDashboardData[] {
       aggregated,
     });
   }
+  return result; // Ensure the function always returns an array
+    return result.length > 0 ? result : []; // Ensure the function always returns an array
+  }
 
-  return result;
-}
