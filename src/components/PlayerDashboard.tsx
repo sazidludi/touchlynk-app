@@ -1,93 +1,61 @@
 'use client';
 
-import React from 'react';
-import { PlayerDashboardData } from '@/types/player';
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import React, { useMemo, useState } from 'react';
 import { generatePlayerDashboardData } from '@/services/player-data';
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  ResponsiveContainer,
-  Tooltip,
-  CartesianGrid,
-} from 'recharts';
+import PlayerHeader from './PlayerHeader';
+import PlayerStatsCards from './PlayerStatsCards';
+import PlayerGoalsChart from './PlayerGoalsChart';
+import PlayerFilters from './PlayerFilters';
+import { FilterOption } from '@/types/filters';
+import { PlayerDashboardData } from '@/types/player';
+import { aggregateStats } from '@/services/processors/aggregation';
 
-type Props = {
+interface Props {
   playerId: string;
-};
+}
 
 const PlayerDashboard: React.FC<Props> = ({ playerId }) => {
-  const data = generatePlayerDashboardData();
-  const player = data.find(p => p.player.id.toString() === playerId);
+  const allPlayerData = generatePlayerDashboardData();
+  const playerData = useMemo(
+    () => allPlayerData.find(p => p.player.id.toString() === playerId),
+    [playerId]
+  );
 
-  if (!player) return <p className="text-white">Player not found.</p>;
+  const [filter, setFilter] = useState<FilterOption>('ALL');
 
-  const { player: info, stats, aggregated } = player;
+  const filteredStats = useMemo(() => {
+    if (!playerData) return [];
+
+    switch (filter) {
+      case 'LAST_5':
+        return playerData.stats.slice(-5);
+      case 'LAST_10':
+        return playerData.stats.slice(-10);
+      case 'ALL':
+      default:
+        return playerData.stats;
+    }
+  }, [playerData, filter]);
+
+  if (!playerData) {
+    return <div className="text-center text-white p-6">Player not found</div>;
+  }
 
   return (
-    <div className="space-y-6 text-white">
-      {/* Player Header */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-2xl font-bold">
-            #{info.jerseyNumber} {info.firstName} {info.lastName}
-          </CardTitle>
-          <p className="text-sm text-muted-foreground">
-            Position: {info.positionCode}
-          </p>
-        </CardHeader>
-      </Card>
+    <div className="min-h-screen bg-gradient-to-r from-[#1f005c] to-[#5b0060] text-white p-4">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="col-span-1">
+          <PlayerHeader player={playerData.player} />
+        </div>
 
-      {/* Aggregated Stats */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        {[
-          ['Tackles', aggregated.totalTackles],
-          ['Pressures', aggregated.totalPressures],
-          ['Recoveries', aggregated.totalRecoveries],
-          ['Saves', aggregated.totalSaves],
-          ['Goals', aggregated.totalGoals],
-          ['Shots', aggregated.totalShots],
-          ['Shots On Target', aggregated.totalShotsOnTarget],
-          ['Assists', aggregated.totalAssists],
-          ['xG', aggregated.totalXG.toFixed(2)],
-        ].map(([label, value]) => (
-          <Card key={label}>
-            <CardHeader>
-              <CardTitle className="text-base">{label}</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-xl font-bold">{value}</p>
-            </CardContent>
-          </Card>
-        ))}
+        <div className="col-span-2 flex flex-col gap-6">
+          <PlayerFilters selected={filter} onChange={setFilter} />
+
+          <PlayerStatsCards aggregated={aggregateStats(filteredStats)} stats={filteredStats} />
+
+          <PlayerGoalsChart stats={filteredStats} />
+        </div>
       </div>
-
-      {/* Game-by-Game Chart */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Game Stats Overview</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={stats}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="scheduleId" />
-              <YAxis />
-              <Tooltip />
-              <Bar dataKey="goals" fill="#8884d8" name="Goals" />
-              <Bar dataKey="assists" fill="#82ca9d" name="Assists" />
-              <Bar dataKey="xGoalsEstimate" fill="#ffc658" name="xG" />
-            </BarChart>
-          </ResponsiveContainer>
-        </CardContent>
-      </Card>
     </div>
   );
 };

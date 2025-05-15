@@ -22,8 +22,8 @@ html, body {
 /* Override for dark mode */
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #03041e;
+    --foreground: #ffffff;
   }
 }
 

@@ -1,100 +1,82 @@
 import scheduleAnalysis from '@data/Scheduleanalysis.json';
+import { ResultIdMap, AssistFromIdMap, MasterEventIdMap, DefensiveEventIdMap } from '@/lib/playerActionMapper';
 import { PlayerGameStats } from '@/types/player';
 
-// Estimate xG from ShotFromId if ResultId is a goal
-function estimateXG(shotFromId: number, resultId: number): number {
-  if (resultId !== 1) return 0; // Only award xG for actual goals
-  switch (shotFromId) {
-    case 1: return 0.5;  // Inside the 6-yard box
-    case 2: return 0.3;  // Inside the box
-    case 3: return 0.15; // Outside the box
-    default: return 0;
-  }
-}
-
+// Maps NewPlayerId to array of PlayerGameStats
 export function processScheduleAnalysisStats(
-    scheduleAnalysis: any[], // Assuming scheduleAnalysis is an array of objects
-    statsMap: Map<number, PlayerGameStats[]>
-): Map<number, PlayerGameStats[]> {
-  const localStatsMap = new Map<number, PlayerGameStats[]>();
+  data: any[],
+  statsMap: Map<number, PlayerGameStats[]>
+): void {
+  data.forEach(event => {
+    const type = event.Type;
+    const playerId: number = event.NewPlayerId || event.DefensivePlayerID || event.GoaliePlayerId;
+    const scheduleId: number = event.ScheduleId;
 
-  for (const event of scheduleAnalysis) {
-    const scheduleId = event.ScheduleId;
-    const playerId = event.NewPlayerId;
-    const assistId = event.NewAssistPlayerId;
-    const resultId = event.ResultId;
-    const shotFromId = event.ShotFromId;
+    if (!playerId || !scheduleId) return;
 
-    // Process primary player event (shot taker or scorer)
-    if (typeof playerId === 'number') {
-      if (!localStatsMap.has(playerId)) localStatsMap.set(playerId, []);
-      const playerStats = localStatsMap.get(playerId)!;
+    const resultLabel = ResultIdMap[event.ResultId];
+    const assistType = AssistFromIdMap[event.AssistFromId];
+    const actionName = MasterEventIdMap[event.MasterOffensiveEventId];
+    const defenseAction = DefensiveEventIdMap[event.MasterDefensiveEventId];
 
-      let stat = playerStats.find(s => s.scheduleId === scheduleId);
-      if (!stat) {
-        stat = {
-          scheduleId,
-          tackles: 0,
-          pressures: 0,
-          recoveries: 0,
-          saves: 0,
-          goals: 0,
-          shots: 0,
-          shotsOnTarget: 0,
-          assists: 0,
-          xGoalsEstimate: 0,
-          passesCompleted: 0,
-          interceptions: 0,
-          clearances: 0,
-          aerialDuels: 0,
-          blockedShots: 0,
-        };
-        playerStats.push(stat);
-      }
+    const existing = statsMap.get(playerId) || [];
+    let gameStat = existing.find(s => s.scheduleId === scheduleId);
 
-      // Shot/Goal logic
-      if ([1, 4, 5, 6].includes(resultId)) {
-        stat.shots += 1;
-      }
-      if (resultId === 4) {
-        stat.shotsOnTarget += 1;
-      }
-      if (resultId === 1) {
-        stat.goals += 1;
-        stat.xGoalsEstimate += estimateXG(shotFromId, resultId);
+    if (!gameStat) {
+      gameStat = {
+        scheduleId,
+        tackles: 0,
+        pressures: 0,
+        recoveries: 0,
+        saves: 0,
+        goals: 0,
+        shots: 0,
+        shotsOnTarget: 0,
+        assists: 0,
+        xGoalsEstimate: 0,
+        interceptions: 0,
+        clearances: 0,
+        aerialDuels: 0,
+        blockedShots: 0,
+      };
+      existing.push(gameStat);
+    }
+
+    // Only process goal event logic for Type === 1 (Goal Events)
+    if (type === 1) {
+      if (resultLabel === 'Goal') gameStat.goals++;
+      if (actionName === 'Shot' || resultLabel) gameStat.shots++;
+      if (['Save', 'Shot off Target', 'Blocked Shot'].includes(resultLabel)) gameStat.shotsOnTarget++;
+      if (assistType) gameStat.assists++;
+      if (resultLabel) gameStat.xGoalsEstimate += 0.15; // Simplified xG logic
+    }
+
+    // Defensive actions for players with DefensivePlayerID
+    if (event.DefensivePlayerID && defenseAction) {
+      switch (defenseAction) {
+        case 'Tackle':
+          gameStat.tackles++;
+          break;
+        case 'Blocked Shot':
+          gameStat.blockedShots++;
+          break;
+        case 'Clearance':
+          gameStat.clearances++;
+          break;
+        case 'Aerial Duel':
+          gameStat.aerialDuels++;
+          break;
+        case 'Defensive Pressure':
+          gameStat.pressures++;
+          break;
       }
     }
 
-    // Process assist (if available)
-    if (typeof assistId === 'number') {
-      if (!localStatsMap.has(assistId)) localStatsMap.set(assistId, []);
-      const assistStats = localStatsMap.get(assistId)!;
-
-      let stat = assistStats.find(s => s.scheduleId === scheduleId);
-      if (!stat) {
-        stat = {
-          scheduleId,
-          tackles: 0,
-          pressures: 0,
-          recoveries: 0,
-          saves: 0,
-          goals: 0,
-          shots: 0,
-          shotsOnTarget: 0,
-          assists: 0,
-          xGoalsEstimate: 0,
-          passesCompleted: 0,
-          interceptions: 0,
-          clearances: 0,
-          aerialDuels: 0,
-          blockedShots: 0,
-        };
-        assistStats.push(stat);
-      }
-
-      stat.assists += 1;
+    // Goalie saves
+    if (event.GoaliePlayerId && resultLabel === 'Save') {
+      gameStat.saves++;
     }
-  }
 
-  return localStatsMap;
+    statsMap.set(playerId, existing);
+  });
 }
