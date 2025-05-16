@@ -1,17 +1,26 @@
-/** @type {import('tailwindcss').Config} */
+// tailwind.config.js
 module.exports = {
   content: [
-    "./app/**/*.{js,ts,jsx,tsx}",
-    "./components/**/*.{js,ts,jsx,tsx}",
-    "./src/**/*.{js,ts,jsx,tsx}",
+    './app/**/*.{ts,tsx}',
+    './components/**/*.{ts,tsx}',
+    './src/**/*.{ts,tsx}',
   ],
   theme: {
     extend: {
-      colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+      fontFamily: {
+        sans: [
+          'system-ui',
+          '-apple-system',
+          'BlinkMacSystemFont',
+          '"Segoe UI"',
+          'Roboto',
+          '"Helvetica Neue"',
+          'Arial',
+          '"Noto Sans"',
+          'sans-serif',
+        ],
       },
     },
   },
   plugins: [],
-}
+};

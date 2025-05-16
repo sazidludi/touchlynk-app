@@ -6,6 +6,7 @@ export type PlayerInfo = {
   jerseyNumber: string | number;
   positionCode: number;
   secondPositionCode?: number;
+  photoUrl?: string;
 };
 
 // Stats per game for a player — allows per-match breakdown

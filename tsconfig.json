@@ -11,30 +11,38 @@
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
-
-    "baseUrl": ".",
-
     "jsx": "preserve",
     "incremental": true,
-    
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ],
-"paths": {
-  "@/*": ["src/*"],
-  "@components/*": ["src/components/*"],
-  "@lib/*": ["src/lib/*"],
-  "@types/*": ["src/types/*"],
-  "@services/*": ["src/services/*"],
-  "@data/*": ["src/data/*"]
-}
+    "baseUrl": ".",
+
+    // Enable Next.js IntelliSense and plugin support
+    "plugins": [{ "name": "next" }],
+
+    // ✅ Path aliases (updated to match new folder structure)
+    "paths": {
+      "@app/*": ["app/*"],
+      "@components/*": ["src/frontend/components/*"],
+      "@layout/*": ["src/frontend/components/layout/*"],
+      "@player/*": ["src/frontend/components/player/*"],
+      "@ui/*": ["src/frontend/components/ui/*"],
+      "@hooks/*": ["src/frontend/hooks/*"],
+      "@lib/*": ["src/frontend/lib/*"],
+      "@styles/*": ["src/frontend/styles/*"],
+      "@types/*": ["src/frontend/types/*"],
+
+      "@backend/*": ["src/backend/*"],
+      "@services/*": ["src/backend/services/*"],
+      "@data/*": ["src/backend/data/*"]
+    }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "scripts/convertExcelToJson.js"],
+
+  "include": [
+    "next-env.d.ts",
+    "app/**/*",
+    "src/**/*",
+    ".next/types/**/*.ts",
+    "scripts/convertExcelToJson.js"
+  ],
+
   "exclude": ["node_modules"]
-  
-
 }
-
-

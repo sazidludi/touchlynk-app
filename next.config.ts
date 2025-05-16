@@ -1,22 +1,20 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
-  /* config options here */
-};
-
-export default nextConfig;
-
 const path = require("path");
 
-module.exports = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   reactStrictMode: true,
-  webpack(config: any) {
-    config.resolve.alias["@"] = path.resolve(__dirname, "src");
-    config.resolve.alias["@components"] = path.resolve(__dirname, "src/components");
-    config.resolve.alias["@lib"] = path.resolve(__dirname, "src/lib");
-    config.resolve.alias["@types"] = path.resolve(__dirname, "src/types");
-    config.resolve.alias["@services"] = path.resolve(__dirname, "src/services");
+  experimental: {
+    appDir: true, // Enable app directory
+  },
+  webpack(config) {
+    config.resolve.alias["@"] = path.resolve(__dirname, "src/frontend");
+    config.resolve.alias["@components"] = path.resolve(__dirname, "src/frontend/components");
+    config.resolve.alias["@lib"] = path.resolve(__dirname, "src/frontend/lib");
+    config.resolve.alias["@types"] = path.resolve(__dirname, "src/frontend/types");
+    config.resolve.alias["@services"] = path.resolve(__dirname, "src/backend/services");
+    config.resolve.alias["@backend"] = path.resolve(__dirname, "src/backend");
     return config;
   }
 };
 
+module.exports = nextConfig;
