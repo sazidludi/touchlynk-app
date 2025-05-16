@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import StatSummaryCards from './StatsSummaryCards';
+import PlayerStatsGrid from '@components/PlayerStatsGrid'; //Import the new dynamic grid
 import Past5matches from './Past5matches';
 import ClubInfoCard from './ClubInfoCard';
 
@@ -9,7 +9,7 @@ export default function PlayerOverview() {
   return (
     <div className="flex flex-col gap-8">
       {/* Top stat cards (Games, Goals, Assists, etc.) */}
-      <StatSummaryCards />
+      <PlayerStatsGrid /> {/*Replaces StatSummaryCards */}
 
       {/* Recent match performances */}
       <Past5matches />
