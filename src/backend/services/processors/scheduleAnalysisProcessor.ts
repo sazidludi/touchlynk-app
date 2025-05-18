@@ -1,6 +1,6 @@
 import scheduleAnalysis from '@data/Scheduleanalysis.json';
-import { ResultIdMap, AssistFromIdMap, MasterEventIdMap, DefensiveEventIdMap } from '@/lib/playerActionMapper';
-import { PlayerGameStats } from '@/types/player';
+import { ResultIdMap, AssistFromIdMap, MasterEventIdMap, DefensiveEventIdMap } from '@lib/playerActionMapper';
+import { PlayerGameStats } from 'src/frontend/types/player';
 
 // Maps NewPlayerId to array of PlayerGameStats
 export function processScheduleAnalysisStats(
@@ -47,7 +47,7 @@ export function processScheduleAnalysisStats(
       if (resultLabel === 'Goal') gameStat.goals++;
       if (actionName === 'Shot' || resultLabel) gameStat.shots++;
       if (['Save', 'Shot off Target', 'Blocked Shot'].includes(resultLabel)) gameStat.shotsOnTarget++;
-      if (assistType) gameStat.assists++;
+      if (event.NewAssistPlayerId || event.AssistPlayerId) gameStat.assists++; // Count if assist player exists
       if (resultLabel) gameStat.xGoalsEstimate += 0.15; // Simplified xG logic
     }
 

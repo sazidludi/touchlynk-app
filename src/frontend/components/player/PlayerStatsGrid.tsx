@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import StatDetailModal from '../ui/StatDetailModel';
 import { getMatchStats, getGoalStats } from '@services/statDetails';
 
+// stat cards at top of mainPage 
 const stats = [
   {
     label: 'Games',
@@ -19,6 +20,34 @@ const stats = [
     detailTitle: 'Goals Breakdown',
     detailContent: getGoalStats,
   },
+  {
+    label: 'Assists',
+    value: 3,
+    color: 'text-yellow-400',
+    detailTitle: 'Assists Breakdown',
+    detailContent: getGoalStats,
+  },
+  {
+    label: 'Win %',
+    value: '67%',
+    color: 'text-yellow-400',
+    detailTitle: 'Win Percentage',
+    detailContent: () => <p>Win percentage details...</p>,
+  },
+  {
+    label: 'Clean Sheets',
+    value: 5,
+    color: 'text-yellow-400',
+    detailTitle: 'Clean Sheets Breakdown',
+    detailContent: () => <p>Clean sheets details...</p>,
+  },
+  {
+    label: 'Avg Rating',
+    value: '7.3',
+    color: 'text-yellow-400',
+    detailTitle: 'Average Rating Breakdown',
+    detailContent: () => <p>Average rating details...</p>,
+  },
 ];
 
 export default function PlayerStatsGrid() {
@@ -31,6 +60,7 @@ export default function PlayerStatsGrid() {
           <div
             key={i}
             onClick={() => setActiveStat(i)}
+            //color for stat cards on main page top of page
             className="bg-[#161826] rounded-xl p-4 text-center cursor-pointer hover:ring-2 hover:ring-yellow-500 transition"
           >
             <p className="text-sm text-white/70">{stat.label}</p>

@@ -18,8 +18,11 @@ export interface TeamPerformanceMatchLog {
   gameDate: string;                // e.g., "2025-01-14"
   isHome: boolean;                 
   goalsFor: number;               
-  goalsAgainst: number;          
-
+  goalsAgainst: number;  
+  goals: number;              // From GameSummaryData.Goals        
+  assists: number;            
+  xGoalsEstimate: number;       // Derived based on match event breakdown
+  
   // Key team performance stats
   possessionsInFinalThird: number;   // From GameSummaryData.PossesionsInOffensiveThird
   completedPasses: number;          // From GameSummaryData.CompletedPasses

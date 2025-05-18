@@ -19,8 +19,10 @@ const MatchStats: React.FC<Props> = ({ match }) => {
         <div>Completed Passes: {match.completedPasses}</div>
         <div>Shots: {match.shots}</div>
         <div>Shots on Target: {match.shotsOnTarget}</div>
+        <div>Assists: {match.assists}</div>
         <div>Regains: {match.regains}</div>
         <div>Avg Passes/Shot: {match.avgPassPerShot}</div>
+        <div>xG (Expected Goals): {match.xGoalsEstimate.toFixed(2)}</div>
       </div>
     </div>
   );

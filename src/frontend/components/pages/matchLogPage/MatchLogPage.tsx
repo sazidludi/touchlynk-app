@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { analyzeTeamPerf } from '@services/team-data/analyzeTeamPerf';
 import { TeamPerformanceMatchLog } from 'src/frontend/types/team';
 import MatchStats from '@components/match/MatchStats';
-import schedule from '@data/Schedule.json'; // Add this if you want to use real data
+import schedule from '@data/Schedule.json';
 
 type Props = {
   playerId: string;
