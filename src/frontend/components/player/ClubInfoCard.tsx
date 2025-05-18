@@ -1,26 +1,58 @@
 'use client';
 
 import React from 'react';
+import { Card, CardContent, Avatar, Typography, Box } from '@mui/material';
 
-// Placeholder props (can replace with real data bindings later)
-const teamName = 'Michigan United';
-const appearances = 18;
-const winRate = '67%';
+interface ClubInfoCardProps {
+  teamName: string;
+  appearances: number;
+  winRate: string;
+}
 
-export default function ClubInfoCard() {
+export default function ClubInfoCard({
+  teamName,
+  appearances,
+  winRate,
+}: ClubInfoCardProps) {
   return (
-    <div className="bg-[#1b1d2a] rounded-xl shadow-md p-5 flex items-center gap-4">
-      {/* Optional: team logo */}
-      <div className="w-14 h-14 bg-gray-700 rounded-full flex items-center justify-center text-white font-bold text-xl">
-        MU
-      </div>
+    <Card
+      sx={{
+        backgroundColor: '#1b1d2a',
+        color: '#ffffff',
+        borderRadius: 3,
+      }}
+    >
+      <CardContent sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+        {/* Team initials avatar */}
+        <Avatar
+          sx={{
+            width: 56,
+            height: 56,
+            fontWeight: 'bold',
+            fontSize: 20,
+            bgcolor: '#374151',
+          }}
+        >
+          {teamName
+            .split(' ')
+            .map((word) => word[0])
+            .join('')
+            .toUpperCase()}
+        </Avatar>
 
-      {/* Team details */}
-      <div className="flex flex-col">
-        <p className="text-sm text-gray-400">Club</p>
-        <h3 className="text-xl font-bold">{teamName}</h3>
-        <p className="text-xs text-gray-400 mt-1">{appearances} appearances • {winRate} win rate</p>
-      </div>
-    </div>
+        {/* Club details */}
+        <Box>
+          <Typography variant="body2" sx={{ color: 'gray' }}>
+            Club
+          </Typography>
+          <Typography variant="h6" fontWeight="bold">
+            {teamName}
+          </Typography>
+          <Typography variant="caption" sx={{ color: 'gray' }}>
+            {appearances} appearances • {winRate} win rate
+          </Typography>
+        </Box>
+      </CardContent>
+    </Card>
   );
 }

@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-import StatDetailModal from './StatDetailModel';
+import StatDetailModal from '../ui/StatDetailModel';
 
 const matchStats = [
   { date: 'May 4', opponent: 'Chelsea', result: 'W 3-1', goals: 1, assists: 0, rating: 8.2 },

@@ -18,7 +18,7 @@
     // Enable Next.js IntelliSense and plugin support
     "plugins": [{ "name": "next" }],
 
-    // ✅ Path aliases (updated to match new folder structure)
+    //Path aliases (updated to match new folder structure)
     "paths": {
       "@app/*": ["app/*"],
       "@components/*": ["src/frontend/components/*"],

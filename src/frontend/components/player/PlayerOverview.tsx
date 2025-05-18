@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import PlayerStatsGrid from '@components/PlayerStatsGrid'; //Import the new dynamic grid
+import PlayerStatsGrid from '@components/player/PlayerStatsGrid'; //Import the new dynamic grid
 import Past5matches from './Past5matches';
 import ClubInfoCard from './ClubInfoCard';
 
@@ -15,7 +15,7 @@ export default function PlayerOverview() {
       <Past5matches />
 
       {/* Club summary block (team name, appearances, win %) */}
-      <ClubInfoCard />
+      <ClubInfoCard teamName={''} appearances={0} winRate={''} />
     </div>
   );
 }

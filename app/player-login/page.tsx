@@ -10,7 +10,7 @@ export default function PlayerLoginPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (playerId.trim()) {
-      router.push(`/dashboard/${playerId}`);
+      router.push(`/dashboard/${playerId}/mainPage`);
     }
   };
 

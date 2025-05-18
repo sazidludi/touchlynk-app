@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import StatDetailModal from './StatDetailModel';
+import StatDetailModal from '../ui/StatDetailModel';
 import { getMatchStats, getGoalStats } from '@services/statDetails';
 
 const stats = [
@@ -19,7 +19,6 @@ const stats = [
     detailTitle: 'Goals Breakdown',
     detailContent: getGoalStats,
   },
-  // Add more stat objects here...
 ];
 
 export default function PlayerStatsGrid() {
